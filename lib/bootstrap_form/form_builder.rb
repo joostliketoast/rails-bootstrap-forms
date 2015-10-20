@@ -371,8 +371,9 @@ module BootstrapForm
         placement = options[:placement] || 'right'
         container = options[:container] || 'body'
         trigger = options[:trigger] || 'click'
+        html = options[:html] || false
 
-        content_tag(:a, '', title: title, role: 'button', class: 'rails-bootstrap-forms-tooltip-button', data: { toggle: toggle, content: tooltip_content, placement: placement, container: container, trigger: trigger }) do
+        content_tag(:a, '', title: title, role: 'button', class: 'rails-bootstrap-forms-tooltip-button', data: { toggle: toggle, content: tooltip_content, placement: placement, container: container, trigger: trigger, html: html }) do
           concat(content_tag(:span, '', class: options[:icon]))
         end
       else

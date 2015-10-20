@@ -8,3 +8,6 @@
 .rails-bootstrap-forms-error-summary {
   margin-top: 10px;
 }
+.rails-bootstrap-forms-tooltip-button {
+  padding: 2px;
+}

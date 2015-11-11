@@ -183,7 +183,7 @@ module BootstrapForm
       content_tag(:div, options.except(:id, :label, :help, :help_position, :icon, :label_col, :control_col, :layout, :help_tooltip)) do
         label = generate_label(options[:id], name, options[:label], options[:label_col], options[:layout]) if options[:label]
         tooltip_help = generate_help_tooltip(options[:help_tooltip])
-        label.concat(generate_help(name, options[:help]).to_s) if options[:help_position] == 'top'
+        label.concat(generate_help(name, options[:help], options[:help_position]).to_s) if options[:help_position] == 'top'
         control = capture(&block).to_s
         control.concat(generate_help(name, options[:help]).to_s) unless options[:help_position] == 'top'
         control.concat(generate_icon(options[:icon])) if options[:icon]
@@ -357,13 +357,15 @@ module BootstrapForm
       end
     end
 
-    def generate_help(name, help_text)
+    def generate_help(name, help_text, help_position = nil)
       help_text = get_error_messages(name) if has_error?(name) && inline_errors
+      class_name = 'help-block'
+      class_name = "help-block-#{help_position}" if help_position
       return if help_text === false
 
       help_text ||= get_help_text_by_i18n_key(name)
 
-      content_tag(:span, help_text, class: 'help-block') if help_text.present?
+      content_tag(:span, help_text, class: class_name) if help_text.present?
     end
 
     def generate_help_tooltip(options)

@@ -62,7 +62,7 @@ class BootstrapFormGroupTest < ActionView::TestCase
   end
 
   test "help messages for default forms below label" do
-    expected = %{<div class="form-group"><label class="control-label required" for="user_email">Email</label><span class="help-block">This is required</span><input class="form-control" id="user_email" name="user[email]" type="text" value="steve@example.com" /></div>}
+    expected = %{<div class="form-group"><label class="control-label required" for="user_email">Email</label><span class="help-block-top">This is required</span><input class="form-control" id="user_email" name="user[email]" type="text" value="steve@example.com" /></div>}
     assert_equal expected, @builder.text_field(:email, help: 'This is required', help_position: 'top')
   end
 

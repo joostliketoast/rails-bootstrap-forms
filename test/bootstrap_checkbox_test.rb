@@ -61,7 +61,7 @@ class BootstrapCheckboxTest < ActionView::TestCase
 
   test 'collection_check_boxes renders the form_group correctly with help on top' do
     collection = [Address.new(id: 1, street: 'Foobar')]
-    expected = %{<input id="user_misc" multiple="multiple" name="user[misc][]" type="hidden" value="" /><div class="form-group"><label class="control-label" for="user_misc">This is a checkbox collection</label><span class="help-block">With a help!</span><div class="checkbox"><label for="user_misc_1"><input id="user_misc_1" name="user[misc][]" type="checkbox" value="1" /> Foobar</label></div></div>}
+    expected = %{<input id="user_misc" multiple="multiple" name="user[misc][]" type="hidden" value="" /><div class="form-group"><label class="control-label" for="user_misc">This is a checkbox collection</label><span class="help-block-top">With a help!</span><div class="checkbox"><label for="user_misc_1"><input id="user_misc_1" name="user[misc][]" type="checkbox" value="1" /> Foobar</label></div></div>}
 
     assert_equal expected, @builder.collection_check_boxes(:misc, collection, :id, :street, label: 'This is a checkbox collection', help: 'With a help!', help_position: 'top')
   end

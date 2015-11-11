@@ -183,7 +183,6 @@ module BootstrapForm
       content_tag(:div, options.except(:id, :label, :help, :help_position, :icon, :label_col, :control_col, :layout, :help_tooltip)) do
         label = generate_label(options[:id], name, options[:label], options[:label_col], options[:layout]) if options[:label]
         tooltip_help = generate_help_tooltip(options[:help_tooltip])
-        label.concat(generate_help(name, options[:help], options[:help_position]).to_s) if options[:help_position] == 'top'
         control = capture(&block).to_s
         control.concat(generate_help(name, options[:help]).to_s) unless options[:help_position] == 'top'
         control.concat(generate_icon(options[:icon])) if options[:icon]
@@ -196,8 +195,11 @@ module BootstrapForm
           end
           control = content_tag(:div, control, class: control_class)
         end
-
-        concat(label).concat(tooltip_help).concat(control)
+        if  options[:help_position] == 'top'
+          concat(label).concat(tooltip_help).concat(generate_help(name, options[:help], options[:help_position]).to_s).concat(control)
+        else
+          concat(label).concat(tooltip_help).concat(control)
+        end
       end
     end
 

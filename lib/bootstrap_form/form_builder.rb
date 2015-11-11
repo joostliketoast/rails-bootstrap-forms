@@ -99,7 +99,7 @@ module BootstrapForm
 
     def check_box_with_bootstrap(name, options = {}, checked_value = "1", unchecked_value = "0", &block)
       options = options.symbolize_keys!
-      check_box_options = options.except(:label, :label_class, :help, :inline)
+      check_box_options = options.except(:label, :label_class, :help, :help_position, :inline)
 
       html = check_box_without_bootstrap(name, check_box_options, checked_value, unchecked_value)
       label_content = block_given? ? capture(&block) : options[:label]
@@ -180,11 +180,12 @@ module BootstrapForm
       options[:class] << " #{error_class}" if has_error?(name)
       options[:class] << " #{feedback_class}" if options[:icon]
 
-      content_tag(:div, options.except(:id, :label, :help, :icon, :label_col, :control_col, :layout, :help_tooltip)) do
+      content_tag(:div, options.except(:id, :label, :help, :help_position, :icon, :label_col, :control_col, :layout, :help_tooltip)) do
         label = generate_label(options[:id], name, options[:label], options[:label_col], options[:layout]) if options[:label]
         tooltip_help = generate_help_tooltip(options[:help_tooltip])
+        label.concat(generate_help(name, options[:help]).to_s) if options[:help_position] == 'top'
         control = capture(&block).to_s
-        control.concat(generate_help(name, options[:help]).to_s)
+        control.concat(generate_help(name, options[:help]).to_s) unless options[:help_position] == 'top'
         control.concat(generate_icon(options[:icon])) if options[:icon]
 
         if get_group_layout(options[:layout]) == :horizontal
@@ -298,6 +299,7 @@ module BootstrapForm
       wrapper_class = css_options.delete(:wrapper_class)
       wrapper_options = css_options.delete(:wrapper)
       help = options.delete(:help)
+      help_position = options.delete(:help_position)
       icon = options.delete(:icon)
       label_col = options.delete(:label_col)
       control_col = options.delete(:control_col)
@@ -305,6 +307,7 @@ module BootstrapForm
       form_group_options = {
         id: options[:id],
         help: help,
+        help_position: help_position,
         icon: icon,
         label_col: label_col,
         control_col: control_col,
